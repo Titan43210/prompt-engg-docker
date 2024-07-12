@@ -1,0 +1,15 @@
+version: "3"
+services:
+  interview_bot:
+    container_name: interviewbot
+    build:
+      context: .
+      dockerfile: Dockerfile-ib_service
+    ports:
+      - 8487:8487
+    restart: on-failure
+networks:
+  default:
+    name: interview_bot_default
+    external: true
+

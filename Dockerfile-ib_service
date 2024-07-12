@@ -1,0 +1,16 @@
+FROM python:3.9
+RUN mkdir /app
+RUN mkdir /app/src
+RUN mkdir /app/logs
+WORKDIR /app
+ADD requirements-ib.txt /app
+RUN pip install -r requirements-ib.txt
+COPY src/interview_assistant /app/src/interview_assistant
+COPY src/common /app/src/common
+COPY app.py /app
+COPY wsgi.py /app
+COPY entrypoint.sh /app
+COPY .env /app/
+EXPOSE 8487
+RUN chmod +x ./entrypoint.sh
+ENTRYPOINT ["sh", "entrypoint.sh"]
