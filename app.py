@@ -7,19 +7,27 @@ from pathlib import Path
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 import redis
 from fastapi.middleware.cors import CORSMiddleware
-from src.common.pydantic_models import Env, HealthStatusResponse, ExtractQuesAnsRequest, ExtractQuesAnsResponse, BaseError
+from src.common.pydantic_models import Env, HealthStatusResponse, ExtractQuesAnsResponse
 from src.common.logger import logger
 from src.interview_assistant.question_answer_extractor import extract_ques_ans
 # from src.interview_assistant.validation import validate_response
 
 env = Env()
-
+origins = env.origins
 
 
 redis_obj = redis.Redis(host=env.redis_host, port=env.redis_port)
 
 app = FastAPI()
 headers = {}
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 @app.get("/")
 def read_root():

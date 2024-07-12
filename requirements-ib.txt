@@ -4,5 +4,4 @@ uvicorn
 python-dotenv
 pydantic
 redis
-guardrails
 PyPDF2
